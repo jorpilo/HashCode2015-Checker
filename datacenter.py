@@ -1,10 +1,12 @@
 # @Author: Jorge Pinilla López
 # @Date:   8-01-2018 00:38:09
 # @Last modified by:   Jorge Pinilla López
-# @Version: 2.1
+# @Version: 2.2
 # @Last modified time: 8-01-2018 23:37:00
 
 import numpy as np
+
+
 class Datacenter(object):
 
     def __init__(self, SLOTS, POOLS, ROWS):

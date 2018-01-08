@@ -1,13 +1,17 @@
 # @Author: Jorge Pinilla López
 # @Date:   12-12-2017 19:38:09
 # @Last modified by:   Jorge Pinilla López
-# @Version: 2.1
-# @Last modified time: 8-01-2018 23:37:00
+# @Version: 2.2
+# @Last modified time: 8-01-2018 23:50:00
 
 import datacenter as dc
 
 
 def read_in_file(file) -> (int, int, int, list, list):
+    """
+    :param file:
+    :return:
+    """
     with open(file, 'r') as file:
         try:
             ROWS, SLOTS, UNAVAILABLE, POOLS, SERVERS = [int(value) for value in file.readline().split(' ')]
@@ -28,10 +32,11 @@ def read_in_file(file) -> (int, int, int, list, list):
 
 def read_out_file(file, numservers) -> list:
     """
-
+    read the output file and transforms it into a list.
+    if servers
     :param file: String poiting tyo output file
     :param numservers: Integer of servers to read, must match serverlist value
-    :return: servers: Ordenated list of placement of each server.
+    :return: servers: Ordenated list of placement of each server with (row, slot, pool).
     """
 
     # Efficiency instead of using append
@@ -44,7 +49,11 @@ def read_out_file(file, numservers) -> list:
                 if line[0] != 'x':
                     row, slot, pool = line
                     servers[i] = (int(row), int(slot), int(pool))
-                    i += 1
+                i += 1
+            if i < numservers:
+                raise Exception('No enough servers in output file Expected: '+str(numservers)+' Got: '+str(i))
+            elif i > numservers:
+                raise Exception('Too many servers in output file Expected: '+str(numservers)+' Got: '+str(i))
         return servers
     except:
         print('Read file exception')
