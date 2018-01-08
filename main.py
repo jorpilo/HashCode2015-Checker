@@ -1,8 +1,8 @@
 # @Author: Jorge Pinilla López
 # @Date:   12-12-2017 19:38:09
 # @Last modified by:   Jorge Pinilla López
-# @Version: 2
-# @Last modified time: 08-01-2018 0:19:38
+# @Version: 2.1
+# @Last modified time: 8-01-2018 23:37:00
 
 import datacenter as dc
 
@@ -26,9 +26,16 @@ def read_in_file(file) -> (int, int, int, list, list):
             raise
 
 
+def read_out_file(file, numservers) -> list:
+    """
 
-def read_out_file(file, servers) -> list:
-    servers = [None]*servers
+    :param file: String poiting tyo output file
+    :param numservers: Integer of servers to read, must match serverlist value
+    :return: servers: Ordenated list of placement of each server.
+    """
+
+    # Efficiency instead of using append
+    servers = [None] * numservers
     try:
         with open(file, 'r') as file:
             i = 0
@@ -56,15 +63,17 @@ def main():
 
     server_pos = read_out_file('files/out.example', len(servers))
     for index, server in enumerate(server_pos):
-        row, slot, pool = server
-        try:
-            datacenter.addserver(servers, index, row, slot, pool)
-        except datacenter.DCException as e:
-            print('Error adding server')
-            print(e)
-            raise
+        if server is not None:
+            row, slot, pool = server
+            try:
+                datacenter.addserver(servers, index, row, slot, pool)
+            except datacenter.DCException as e:
+                print('Error adding server')
+                print(e)
+                raise
 
     print('The minimun is ->' + str(datacenter.calculatescore()))
+
     print(datacenter)
 
 

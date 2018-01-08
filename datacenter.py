@@ -1,8 +1,8 @@
 # @Author: Jorge Pinilla López
 # @Date:   8-01-2018 00:38:09
 # @Last modified by:   Jorge Pinilla López
-# @Version: 2
-# @Last modified time: 8-01-2018 00:38:09
+# @Version: 2.1
+# @Last modified time: 8-01-2018 23:37:00
 
 import numpy as np
 class Datacenter(object):
@@ -72,7 +72,7 @@ class Datacenter(object):
         for Row in self.datacenter['Rows']:
             for freeSlot in Row['Slots']:
                 rows[i][range(freeSlot['Start'], freeSlot['End'] + 1)] = [' ']
-            result + str(rows[i]) + '--->' + str(Row['Power']) + '\n'
+            result += str(rows[i]) + '--->' + str(Row['Power']) + '\n'
             i += 1
         return result
 
