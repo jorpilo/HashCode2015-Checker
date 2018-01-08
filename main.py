@@ -45,7 +45,7 @@ def read_out_file(file, servers) -> list:
 
 
 def main():
-    ROWS, SLOTS, POOLS, unavailable, servers = read_in_file('in.example')
+    ROWS, SLOTS, POOLS, unavailable, servers = read_in_file('files/in.example')
     datacenter = dc.Datacenter(SLOTS, POOLS, ROWS)
     for row, slot in unavailable:
         try:
@@ -54,7 +54,7 @@ def main():
             print(e)
             raise
 
-    server_pos = read_out_file('out.example', len(servers))
+    server_pos = read_out_file('files/out.example', len(servers))
     for index, server in enumerate(server_pos):
         row, slot, pool = server
         try:
