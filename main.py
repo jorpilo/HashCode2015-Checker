@@ -62,7 +62,7 @@ def main():
         except datacenter.DCException as e:
             print('Error adding server')
             print(e)
-            raise(e)
+            raise
 
     print('The minimun is ->' + str(datacenter.calculatescore()))
     print(datacenter)
