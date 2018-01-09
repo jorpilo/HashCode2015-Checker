@@ -4,6 +4,8 @@
 # @Version: 2.2
 # @Last modified time: 8-01-2018 23:50:00
 
+import argparse
+
 import datacenter as dc
 
 
@@ -12,7 +14,7 @@ def read_in_file(file) -> (int, int, int, list, list):
     :param file:
     :return:
     """
-    with open(file, 'r') as file:
+    with file as file:
         try:
             ROWS, SLOTS, UNAVAILABLE, POOLS, SERVERS = [int(value) for value in file.readline().split(' ')]
             unavailable = [None] * UNAVAILABLE
@@ -42,7 +44,7 @@ def read_out_file(file, numservers) -> list:
     # Efficiency instead of using append
     servers = [None] * numservers
     try:
-        with open(file, 'r') as file:
+        with file as file:
             i = 0
             for line in file:
                 line = line.strip().split(' ')
@@ -60,8 +62,8 @@ def read_out_file(file, numservers) -> list:
         raise
 
 
-def main():
-    ROWS, SLOTS, POOLS, unavailable, servers = read_in_file('files/in.example')
+def main(input, output):
+    ROWS, SLOTS, POOLS, unavailable, servers = read_in_file(input)
     datacenter = dc.Datacenter(SLOTS, POOLS, ROWS)
     for row, slot in unavailable:
         try:
@@ -70,7 +72,7 @@ def main():
             print(e)
             raise
 
-    server_pos = read_out_file('files/out.example', len(servers))
+    server_pos = read_out_file(output, len(servers))
     for index, server in enumerate(server_pos):
         if server is not None:
             row, slot, pool = server
@@ -82,9 +84,14 @@ def main():
                 raise
 
     print('The minimun is ->' + str(datacenter.calculatescore()))
-
     print(datacenter)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Check HashCode 2015 solutions')
+    parser.add_argument('input', metavar='input_file', help='input file file.in',
+                        type=argparse.FileType('r'))
+    parser.add_argument('solution', metavar='solution_file', help='solution file file.out',
+                        type=argparse.FileType('r'))
+    args = parser.parse_args()
+    main(args.input, args.solution)
